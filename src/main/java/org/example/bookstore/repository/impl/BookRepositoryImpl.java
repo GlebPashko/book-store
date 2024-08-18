@@ -1,6 +1,7 @@
 package org.example.bookstore.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.exception.DataProcessingException;
 import org.example.bookstore.model.Book;
@@ -43,6 +44,15 @@ public class BookRepositoryImpl implements BookRepository {
             return session.createQuery("from Book", Book.class).list();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find books", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(Book.class, id));
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find book by id: " + id, e);
         }
     }
 }
