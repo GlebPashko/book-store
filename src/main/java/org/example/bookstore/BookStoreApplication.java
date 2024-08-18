@@ -18,16 +18,15 @@ public class BookStoreApplication {
         SpringApplication.run(BookStoreApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner() {
-        return args -> {
-            Book book = new Book();
-            book.setTitle("Book Title 1");
-            book.setAuthor("Author 1");
-            book.setIsbn("ISBN 1");
-            book.setPrice(BigDecimal.valueOf(120));
-            bookService.save(book);
-            System.out.println(bookService.findAll());
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner() {
+//        return args -> {
+//            Book book = new Book();
+//            book.setTitle("Book Title 1");
+//            book.setAuthor("Author 1");
+//            book.setIsbn("ISBN 1");
+//            book.setPrice(BigDecimal.valueOf(120));
+//            bookService.save(book);
+//        };
+//    }
 }
