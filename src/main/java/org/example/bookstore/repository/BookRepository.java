@@ -7,7 +7,7 @@ import org.example.bookstore.model.Book;
 public interface BookRepository {
     Book save(Book book);
 
-    List findAll();
+    List<Book> findAll();
 
     Optional<Book> getBookById(Long id);
 }
