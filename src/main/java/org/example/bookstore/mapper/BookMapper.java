@@ -1,5 +1,6 @@
 package org.example.bookstore.mapper;
 
+import java.util.List;
 import org.example.bookstore.config.MapperConfig;
 import org.example.bookstore.dto.BookDto;
 import org.example.bookstore.dto.CreateBookRequestDto;
@@ -11,4 +12,6 @@ public interface BookMapper {
     BookDto toDto(Book employee);
 
     Book toModel(CreateBookRequestDto requestDto);
+
+    List<BookDto> toDtoList(List<Book> books);
 }
