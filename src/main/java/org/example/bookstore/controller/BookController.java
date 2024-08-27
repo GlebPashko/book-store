@@ -38,7 +38,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public void getBookById(@PathVariable Long id, @RequestBody CreateBookRequestDto requestDto) {
+    public void updateBookById(@PathVariable Long id, @RequestBody CreateBookRequestDto requestDto) {
         bookService.updateById(id, requestDto);
     }
 
