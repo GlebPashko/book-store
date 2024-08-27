@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.2.6.Final</version>
+            <version>6.5.2.Final</version>
             <scope>compile</scope>
         </dependency>
 
@@ -80,6 +80,18 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
 
         <dependency>
