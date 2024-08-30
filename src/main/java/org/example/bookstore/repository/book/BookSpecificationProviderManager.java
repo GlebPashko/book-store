@@ -17,7 +17,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
     public SpecificationProvider<Book> getSpecificationProvider(String key) {
         return employeeSpecificationProvider
                 .stream()
-                .filter(p -> p.getKey().equals(key))
+                .filter(provider -> provider.getKey().equals(key))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException(
                         "Don't find specification provider for " + key));
