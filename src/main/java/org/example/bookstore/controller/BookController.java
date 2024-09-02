@@ -3,6 +3,7 @@ package org.example.bookstore.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.BookDto;
+import org.example.bookstore.dto.BookSearchParameters;
 import org.example.bookstore.dto.CreateBookRequestDto;
 import org.example.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,11 @@ public class BookController {
     public void updateBookById(@PathVariable Long id,
                                @RequestBody CreateBookRequestDto requestDto) {
         bookService.updateById(id, requestDto);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParameters searchParameters) {
+        return bookService.searchBooks(searchParameters);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
