@@ -1,7 +1,5 @@
 package org.example.bookstore.validation;
 
-import java.util.regex.Pattern;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -13,13 +11,13 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
         }
 
         return switch (isbn.length()) {
-            case 10 -> isValidISBN10(isbn);
-            case 13 -> isValidISBN13(isbn);
+            case 10 -> isValidIsbn10(isbn);
+            case 13 -> isValidIsbn13(isbn);
             default -> false;
         };
     }
 
-    private boolean isValidISBN10(String isbn) {
+    private boolean isValidIsbn10(String isbn) {
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             if (!Character.isDigit(isbn.charAt(i))) {
@@ -37,7 +35,7 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
         return sum % 11 == 0;
     }
 
-    private boolean isValidISBN13(String isbn) {
+    private boolean isValidIsbn13(String isbn) {
         int sum = 0;
         for (int i = 0; i < 12; i++) {
             if (!Character.isDigit(isbn.charAt(i))) {
