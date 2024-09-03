@@ -1,6 +1,8 @@
 package org.example.bookstore.controller;
 
 import java.util.List;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.BookDto;
 import org.example.bookstore.dto.BookSearchParameters;
@@ -24,7 +26,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService. save(requestDto);
     }
 
