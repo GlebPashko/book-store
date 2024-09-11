@@ -11,6 +11,7 @@ import org.example.bookstore.model.Book;
 import org.example.bookstore.repository.book.BookRepository;
 import org.example.bookstore.repository.book.BookSpecificationBuilder;
 import org.example.bookstore.service.BookService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookMapper.toDtoList(bookRepository.findAll());
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookMapper.toDtoList(bookRepository.findAll(pageable));
     }
 
     @Override
@@ -47,9 +48,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(BookSearchParameters searchParameters) {
+    public List<BookDto> searchBooks(BookSearchParameters searchParameters, Pageable pageable) {
         Specification<Book> specification = specificationBuilder.build(searchParameters);
-        return bookMapper.toDtoList(bookRepository.findAll(specification));
+        return bookMapper.toDtoList(bookRepository.findAll(specification, pageable));
     }
 
     @Override

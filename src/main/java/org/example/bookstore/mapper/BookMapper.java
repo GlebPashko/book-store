@@ -6,6 +6,7 @@ import org.example.bookstore.dto.BookDto;
 import org.example.bookstore.dto.CreateBookRequestDto;
 import org.example.bookstore.model.Book;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
@@ -13,5 +14,5 @@ public interface BookMapper {
 
     Book toModel(CreateBookRequestDto requestDto);
 
-    List<BookDto> toDtoList(List<Book> books);
+    List<BookDto> toDtoList(Page<Book> books);
 }
