@@ -1,5 +1,8 @@
 package org.example.bookstore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.user.UserDto;
@@ -11,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Authentication management", description = "Endpoints for authentication users")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final UserService userService;
 
+    @Operation(summary = "Register a new user")
+    @ApiResponse(responseCode = "200", description = "Registered user is successful.")
+    @ApiResponse(responseCode = "400", description = "Invalid input data.")
     @PostMapping("/registration")
     public UserDto register(@RequestBody @Valid UserRegistrationRequestDto request)
             throws RegistrationException {
