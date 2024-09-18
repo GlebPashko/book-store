@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     public UserDto register(UserRegistrationRequestDto requestDto) throws RegistrationException {
-        if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new RegistrationException("This email address is already taken");
         }
 

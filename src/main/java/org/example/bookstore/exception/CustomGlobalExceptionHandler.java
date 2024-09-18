@@ -43,8 +43,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(RegistrationException.class)
     public ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
-        Map<String, Object> body = getBodyMassage(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        Map<String, Object> body = getBodyMassage(List.of(ex.getMessage()), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     private String getErrorMassage(ObjectError error) {
