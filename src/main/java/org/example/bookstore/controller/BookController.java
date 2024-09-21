@@ -1,7 +1,6 @@
 package org.example.bookstore.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -31,8 +30,6 @@ public class BookController {
     private final BookService bookService;
 
     @Operation(summary = "Create a new book")
-    @ApiResponse(responseCode = "200", description = "Book created successfully.")
-    @ApiResponse(responseCode = "400", description = "Invalid input data.")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
@@ -40,7 +37,6 @@ public class BookController {
     }
 
     @Operation(summary = "Find all books")
-    @ApiResponse(responseCode = "200", description = "Books retrieved successfully.")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public List<BookDto> getAll(Pageable pageable) {
@@ -48,8 +44,6 @@ public class BookController {
     }
 
     @Operation(summary = "Find a book by id")
-    @ApiResponse(responseCode = "200", description = "Book retrieved successfully.")
-    @ApiResponse(responseCode = "404", description = "Book not found.")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
@@ -57,9 +51,6 @@ public class BookController {
     }
 
     @Operation(summary = "Update a book by id")
-    @ApiResponse(responseCode = "204", description = "Book updated successfully.")
-    @ApiResponse(responseCode = "400", description = "Invalid input data.")
-    @ApiResponse(responseCode = "404", description = "Book not found.")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public void updateBookById(@PathVariable Long id,
@@ -68,7 +59,6 @@ public class BookController {
     }
 
     @Operation(summary = "Search for books by parameters")
-    @ApiResponse(responseCode = "200", description = "Books retrieved successfully.")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/search")
     public List<BookDto> searchBooks(BookSearchParameters searchParameters, Pageable pageable) {
@@ -77,7 +67,6 @@ public class BookController {
 
     @Operation(summary = "Delete a book by id", description = "Mark the book "
             + "field 'is_deleted' = true")
-    @ApiResponse(responseCode = "204", description = "Book deleted successfully.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

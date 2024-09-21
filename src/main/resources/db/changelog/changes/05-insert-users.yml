@@ -3,49 +3,48 @@ databaseChangeLog:
       id: create-users-roles-table
       author: hlieb
       changes:
-        <changeSet id="1" author="your_name">
-        <insert tableName="users">
-        <column name="id" value="1"/>
-        <column name="email" value="bob@gmail.com"/>
-        <column name="password" value="$2a$10$1vboNv5Xd0BqlyiekCRU.OyamCFIaDbFKHHXq6Gri1nJe4qu1NPxq"/>
-        <column name="first_name" value="Bob"/>
-        <column name="last_name" value="Bob"/>
-        <column name="shipping_address" value="123 Main St, City, Country"/>
-        </insert>
-        
-        <insert tableName="users">
-        <column name="id" value="2"/>
-        <column name="email" value="john@gmail.com"/>
-        <column name="password" value="$2a$10$Nv5Xd0BqlyiekCRU.OyamCFIaDbFKHHXq6Gri1nJe4qu1NPxq"/>
-        <column name="first_name" value="John"/>
-        <column name="last_name" value="Doe"/>
-        <column name="shipping_address" value="123 Main"/>
-        </insert>
-        
-        <insert tableName="users">
-        <column name="id" value="3"/>
-        <column name="email" value="gleb@gmail.com"/>
-        <column name="password" value="$2a$10$1vboNv5Xd0BqlyiekCRU.OyamCFIaDbFKHHXq6Gri1nJe4qu1NPxq"/>
-        <column name="first_name" value="Gleb"/>
-        <column name="last_name" value="P"/>
-        <column name="shipping_address" value="123 Main"/>
-        </insert>
-        
-        <insert tableName="users">
-        <column name="id" value="7"/>
-        <column name="email" value="alex@gmail.com"/>
-        <column name="password" value="$2a$10$pIjHWbx40Kb6Ves31kPxQumdKZoNFdlfZd8ty4RE"/>
-        <column name="first_name" value="Alex"/>
-        <column name="last_name" value="P"/>
-        <column name="shipping_address" value="123 Main"/>
-        </insert>
-        
-        <insert tableName="users">
-        <column name="id" value="8"/>
-        <column name="email" value="admin@gmail.com"/>
-        <column name="password" value="$2a$10$pOkINAq/csvKCzT8iBdW20vvBPL7"/>
-        <column name="first_name" value="jhon"/>
-        <column name="last_name" value="jhon"/>
-        <column name="shipping_address" value="123 Main"/>
-        </insert>
-        </changeSet>
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: bob@gmail.com
+              - column:
+                  name: password
+                  value: "$2a$10$1vboNv5Xd0BqlyiekCRU.Oyaqj9RsCry9AFHbIIx7lIRXhGvVdCEu"
+              - column:
+                  name: first_name
+                  value: Bob
+              - column:
+                  name: last_name
+                  value: Bob
+              - column:
+                  name: shipping_address
+                  value: "123 Main St, City, Country"
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: email
+                  value: admin@gmail.com
+              - column:
+                  name: password
+                  value: "$2a$10$1vboNv5Xd0BqlyiekCRU.Oyaqj9RsCry9AFHbIIx7lIRXhGvVdCEu"
+              - column:
+                  name: first_name
+                  value: Admin
+              - column:
+                  name: last_name
+                  value: Admin
+              - column:
+                  name: shipping_address
+                  value: "123 Main"
+
+
