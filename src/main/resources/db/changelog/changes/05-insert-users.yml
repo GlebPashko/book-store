@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-roles-table
+      author: hlieb
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: bob@gmail.com
+              - column:
+                  name: password
+                  value: "$2a$10$1vboNv5Xd0BqlyiekCRU.Oyaqj9RsCry9AFHbIIx7lIRXhGvVdCEu"
+              - column:
+                  name: first_name
+                  value: Bob
+              - column:
+                  name: last_name
+                  value: Bob
+              - column:
+                  name: shipping_address
+                  value: "123 Main St, City, Country"
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: email
+                  value: admin@gmail.com
+              - column:
+                  name: password
+                  value: "$2a$10$1vboNv5Xd0BqlyiekCRU.Oyaqj9RsCry9AFHbIIx7lIRXhGvVdCEu"
+              - column:
+                  name: first_name
+                  value: Admin
+              - column:
+                  name: last_name
+                  value: Admin
+              - column:
+                  name: shipping_address
+                  value: "123 Main"
+
+
