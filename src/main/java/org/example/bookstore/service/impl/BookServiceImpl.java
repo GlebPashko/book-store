@@ -3,6 +3,7 @@ package org.example.bookstore.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.book.BookDto;
+import org.example.bookstore.dto.book.BookDtoWithoutCategory;
 import org.example.bookstore.dto.book.BookSearchParameters;
 import org.example.bookstore.dto.book.CreateBookRequestDto;
 import org.example.bookstore.exception.EntityNotFoundException;
@@ -11,6 +12,7 @@ import org.example.bookstore.model.Book;
 import org.example.bookstore.repository.book.BookRepository;
 import org.example.bookstore.repository.book.BookSpecificationBuilder;
 import org.example.bookstore.service.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -26,20 +28,28 @@ public class BookServiceImpl implements BookService {
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toModel(requestDto);
         bookRepository.save(book);
-        return bookMapper.toDto(book);
+        BookDto booksDto = bookMapper.toDto(book);
+        booksDto.setCategoryIds(requestDto.getCategoryIds());
+        return booksDto;
     }
 
     @Override
-    public List<BookDto> findAll(Pageable pageable) {
-        return bookMapper.toDtoList(bookRepository.findAll(pageable));
+    public List<BookDtoWithoutCategory> findAll(Pageable pageable) {
+        return bookMapper.toDtoListWithoutCategory(bookRepository.findAll(pageable));
     }
 
     @Override
-    public BookDto getBookById(Long id) {
+    public BookDtoWithoutCategory getBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Book with id: " + id + " not found"));
-        return bookMapper.toDto(book);
+        return bookMapper.toDtoWithoutCategory(book);
+    }
+
+    @Override
+    public List<BookDtoWithoutCategory> findAllByCategoryId(Long id, Pageable pageable) {
+        Page<Book> books = bookRepository.findAllByCategoryId(id, pageable);
+        return bookMapper.toDtoListWithoutCategory(books);
     }
 
     @Override
@@ -48,9 +58,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(BookSearchParameters searchParameters, Pageable pageable) {
+    public List<BookDtoWithoutCategory> searchBooks(BookSearchParameters searchParameters,
+                                                    Pageable pageable) {
         Specification<Book> specification = specificationBuilder.build(searchParameters);
-        return bookMapper.toDtoList(bookRepository.findAll(specification, pageable));
+        return bookMapper.toDtoListWithoutCategory(bookRepository.findAll(specification, pageable));
     }
 
     @Override
@@ -64,6 +75,7 @@ public class BookServiceImpl implements BookService {
         book.setPrice(requestDto.getPrice());
         book.setDescription(requestDto.getDescription());
         book.setCoverImage(requestDto.getCoverImage());
+        book.setCategories(book.getCategories());
         bookRepository.save(book);
     }
 }

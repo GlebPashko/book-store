@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.book.BookDto;
+import org.example.bookstore.dto.book.BookDtoWithoutCategory;
 import org.example.bookstore.dto.book.BookSearchParameters;
 import org.example.bookstore.dto.book.CreateBookRequestDto;
 import org.example.bookstore.service.BookService;
@@ -39,14 +40,14 @@ public class BookController {
     @Operation(summary = "Find all books")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDtoWithoutCategory> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
     @Operation(summary = "Find a book by id")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDtoWithoutCategory getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
@@ -61,7 +62,8 @@ public class BookController {
     @Operation(summary = "Search for books by parameters")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/search")
-    public List<BookDto> searchBooks(BookSearchParameters searchParameters, Pageable pageable) {
+    public List<BookDtoWithoutCategory> searchBooks(BookSearchParameters searchParameters,
+                                                    Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
 

@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-categories
+      author: hlieb
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: Fiction
+              - column:
+                  name: description
+                  value: Fiction category
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: Thriller
+              - column:
+                  name: description
+                  value: Thriller category
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name
+                  value: Fantasy
+              - column:
+                  name: description
+                  value: Fantasy category
