@@ -6,6 +6,7 @@ import org.example.bookstore.dto.category.CategoryDto;
 import org.example.bookstore.dto.category.CreateCategoryRequestDto;
 import org.example.bookstore.model.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
@@ -14,9 +15,10 @@ public interface CategoryMapper {
 
     List<CategoryDto> toDtoList(List<Category> category);
 
-    Category toEntity(CategoryDto categoryDto);
-
     Category toEntity(CreateCategoryRequestDto requestDto);
+
+    Category updateCategoryFromDto(CreateCategoryRequestDto requestDto,
+                                   @MappingTarget Category category);
 
     @Named("categoryById")
     default Category categoryById(Long id) {
@@ -26,5 +28,14 @@ public interface CategoryMapper {
         Category category = new Category();
         category.setId(id);
         return category;
+    }
+
+    @Named("idsByCategory")
+    default Long categoryIds(Category category) {
+        if (category == null) {
+            return null;
+        }
+        Long id = category.getId();
+        return id;
     }
 }

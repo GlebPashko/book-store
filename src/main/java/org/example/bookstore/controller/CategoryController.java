@@ -2,6 +2,7 @@ package org.example.bookstore.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.bookstore.dto.book.BookDtoWithoutCategory;
@@ -31,7 +32,7 @@ public class CategoryController {
     @Operation(summary = "Create a new category")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public CategoryDto createCategory(@RequestBody CreateCategoryRequestDto requestDto) {
+    public CategoryDto createCategory(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
 
@@ -53,7 +54,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      @RequestBody CreateCategoryRequestDto requestDto) {
+                                      @RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.update(id, requestDto);
     }
 

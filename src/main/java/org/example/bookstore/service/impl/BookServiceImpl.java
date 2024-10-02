@@ -34,16 +34,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategory> findAll(Pageable pageable) {
-        return bookMapper.toDtoListWithoutCategory(bookRepository.findAll(pageable));
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookMapper.toDtoList(bookRepository.findAll(pageable));
     }
 
     @Override
-    public BookDtoWithoutCategory getBookById(Long id) {
+    public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Book with id: " + id + " not found"));
-        return bookMapper.toDtoWithoutCategory(book);
+        return bookMapper.toDto(book);
     }
 
     @Override
@@ -58,10 +58,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategory> searchBooks(BookSearchParameters searchParameters,
+    public List<BookDto> searchBooks(BookSearchParameters searchParameters,
                                                     Pageable pageable) {
         Specification<Book> specification = specificationBuilder.build(searchParameters);
-        return bookMapper.toDtoListWithoutCategory(bookRepository.findAll(specification, pageable));
+        return bookMapper.toDtoList(bookRepository.findAll(specification, pageable));
     }
 
     @Override
@@ -69,13 +69,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Book with id: " + id + " not found"));
-        book.setTitle(requestDto.getTitle());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setPrice(requestDto.getPrice());
-        book.setDescription(requestDto.getDescription());
-        book.setCoverImage(requestDto.getCoverImage());
-        book.setCategories(book.getCategories());
+        book = bookMapper.updateBookFromDto(requestDto, book);
         bookRepository.save(book);
     }
 }
