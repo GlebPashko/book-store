@@ -17,7 +17,7 @@ public interface CategoryMapper {
 
     Category toEntity(CreateCategoryRequestDto requestDto);
 
-    Category updateCategoryFromDto(CreateCategoryRequestDto requestDto,
+    void updateCategoryFromDto(CreateCategoryRequestDto requestDto,
                                    @MappingTarget Category category);
 
     @Named("categoryById")

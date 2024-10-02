@@ -24,5 +24,5 @@ public interface BookMapper {
     Book toModel(CreateBookRequestDto requestDto);
 
     @Mapping(target = "categories", source = "categoryIds", qualifiedByName = "categoryById")
-    Book updateBookFromDto(CreateBookRequestDto requestDto, @MappingTarget Book book);
+    void updateBookFromDto(CreateBookRequestDto requestDto, @MappingTarget Book book);
 }
