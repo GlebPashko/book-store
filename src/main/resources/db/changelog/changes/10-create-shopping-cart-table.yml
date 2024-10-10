@@ -9,15 +9,17 @@ databaseChangeLog:
               - column:
                   name: id
                   type: bigint
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
                     nullable: false
                     foreignKeyName: fk_shoppingcarts_user
                     referencedTableName: users
                     referencedColumnNames: id
+#              - column:
+#                  name: user_id
+#                  type: bigint
+#                  constraints:
+#                    nullable: false
+#                    foreignKeyName: fk_shoppingcarts_user
+#                    referencedTableName: users
+#                    referencedColumnNames: id

@@ -35,17 +35,18 @@ public class ShoppingCartController {
     @Operation(summary = "Add a book to the cart")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public void addBookToShoppingCart(@RequestBody @Valid CartItemRequestDto requestDto) {
-        shoppingCartService.addBookToShoppingCart(requestDto);
+    public ShoppingCartResponseDto addBookToShoppingCart(
+            @RequestBody @Valid CartItemRequestDto requestDto) {
+        return shoppingCartService.addBookToShoppingCart(requestDto);
     }
 
     @Operation(summary = "Update the book's quantity")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/{id}")
-    public void updateQuantity(
+    public ShoppingCartResponseDto updateQuantity(
             @PathVariable Long id,
             @RequestBody @Valid UpdateShoppingCartRequestDto requestDto) {
-        shoppingCartService.updateQuantity(id, requestDto);
+        return shoppingCartService.updateQuantity(id, requestDto);
     }
 
     @Operation(summary = "Delete a book from the cart")

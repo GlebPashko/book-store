@@ -8,9 +8,9 @@ import org.example.bookstore.model.User;
 public interface ShoppingCartService {
     ShoppingCartResponseDto getShoppingCart();
 
-    void addBookToShoppingCart(CartItemRequestDto requestDto);
+    ShoppingCartResponseDto addBookToShoppingCart(CartItemRequestDto requestDto);
 
-    void updateQuantity(Long id, UpdateShoppingCartRequestDto requestDto);
+    ShoppingCartResponseDto updateQuantity(Long id, UpdateShoppingCartRequestDto requestDto);
 
     void deleteBook(Long id);
 
