@@ -9,6 +9,7 @@ import org.example.bookstore.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.springframework.data.domain.Page;
 
 @Mapper(config = MapperConfig.class, uses = CategoryMapper.class)
@@ -25,4 +26,11 @@ public interface BookMapper {
 
     @Mapping(target = "categories", source = "categoryIds", qualifiedByName = "categoryById")
     void updateBookFromDto(CreateBookRequestDto requestDto, @MappingTarget Book book);
+
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
+        Book book = new Book();
+        book.setId(id);
+        return book;
+    }
 }
