@@ -15,11 +15,3 @@ databaseChangeLog:
                     foreignKeyName: fk_shoppingcarts_user
                     referencedTableName: users
                     referencedColumnNames: id
-#              - column:
-#                  name: user_id
-#                  type: bigint
-#                  constraints:
-#                    nullable: false
-#                    foreignKeyName: fk_shoppingcarts_user
-#                    referencedTableName: users
-#                    referencedColumnNames: id
