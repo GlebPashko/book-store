@@ -47,8 +47,16 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(requestDto.getShippingAddress());
 
         Set<OrderItem> orderItems = orderItemMapper.toOrderItemSet(shoppingCart.getCartItems());
-        orderItems.forEach(o -> o.setOrder(order));
-        orderItems.forEach(o -> o.setPrice(o.getPrice().multiply(new BigDecimal(o.getQuantity()))));
+        orderItems.forEach(orderItem -> {
+                    if (orderItem.getPrice() == null || orderItem.getQuantity() < 1) {
+                        throw new IllegalArgumentException("OrderItem with id "
+                                + orderItem.getId() + " has a illegal price or quantity.");
+                    }
+                    orderItem.setOrder(order);
+                    orderItem.setPrice(orderItem.getPrice()
+                            .multiply(new BigDecimal(orderItem.getQuantity())));
+                }
+        );
 
         order.setOrderItems(orderItems);
         order.setTotal(
