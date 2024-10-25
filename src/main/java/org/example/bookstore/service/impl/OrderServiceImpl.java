@@ -47,16 +47,7 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(requestDto.getShippingAddress());
 
         Set<OrderItem> orderItems = orderItemMapper.toOrderItemSet(shoppingCart.getCartItems());
-        orderItems.forEach(orderItem -> {
-                    if (orderItem.getPrice() == null || orderItem.getQuantity() < 1) {
-                        throw new IllegalArgumentException("OrderItem with id "
-                                + orderItem.getId() + " has a illegal price or quantity.");
-                    }
-                    orderItem.setOrder(order);
-                    orderItem.setPrice(orderItem.getPrice()
-                            .multiply(new BigDecimal(orderItem.getQuantity())));
-                }
-        );
+        orderItems.forEach(orderItem -> validateAndSetOrderItem(orderItem, order));
 
         order.setOrderItems(orderItems);
         order.setTotal(
@@ -100,8 +91,16 @@ public class OrderServiceImpl implements OrderService {
         return orderItemMapper.toOrderItemResponseDto(orderItem);
     }
 
+    private void validateAndSetOrderItem(OrderItem orderItem, Order order) {
+        if (orderItem.getPrice() == null || orderItem.getQuantity() < 1) {
+            throw new IllegalArgumentException("OrderItem with id "
+                    + orderItem.getId() + " has an illegal price or quantity.");
+        }
+        orderItem.setOrder(order);
+        orderItem.setPrice(orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())));
+    }
+
     private User getAuthenticatedUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user;
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
