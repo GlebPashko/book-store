@@ -1,0 +1,35 @@
+name: book-store
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7.34
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+  app:
+    depends_on:
+      - mysqldb
+    image: book-store-image
+    restart: on-failure
+    container_name: app
+    build: .
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+      - $DEBUG_PORT:$DEBUG_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?characterEncoding=UTF-8&serverTimezone=UTC",
+        "spring.datasource.username" : "$MYSQLDB_USER",
+        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+        "spring.jpa.hibernate.ddl-auto" : "validate",
+        "spring.jpa.show-sql" : "true",
+        "jwt.expiration" : "$JWT_EXPIRATION_TIME",
+        "jwt.secret" : "$JWT_SECRET"
+      }'
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT"
