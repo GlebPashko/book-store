@@ -9,9 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.example.bookstore.dto.category.CategoryDto;
 import org.example.bookstore.dto.category.CreateCategoryRequestDto;
 import org.example.bookstore.security.JwtUtil;
+import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+@Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
     private static MockMvc mockMvc;
@@ -42,15 +46,12 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Transactional
     @DisplayName("Verify create method return CategoryDto")
     @WithMockUser(username = "admin", roles = "ADMIN")
     public void createCategory_ValidCreateCategoryRequestDto_Success() throws Exception {
-        CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
-        CategoryDto expected = getCategoryDto();
+        CreateCategoryRequestDto requestDto = TestUtil.getCategoryRequestDto();
+        CategoryDto expected = TestUtil.getCategoryDto();
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         mockMvc.perform(post("/categories")
@@ -63,14 +64,12 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Transactional
+    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify getAll returns list of CategoryDto")
     @WithMockUser(username = "user", roles = "USER")
     public void getAll_WithUserRole_ShouldReturnCategoryDtos() throws Exception {
-        CategoryDto expected = getCategoryDto();
+        CategoryDto expected = TestUtil.getCategoryDto();
         mockMvc.perform(get("/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(expected.getId()))
@@ -79,14 +78,20 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Transactional
+    @DisplayName("Verify getAll without login, should returns exception")
+    public void getAll_WithoutLogin_ShouldReturnException() throws Exception {
+        mockMvc.perform(get("/categories"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @Transactional
+    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify getCategoryById returns CategoryDto for valid ID")
     @WithMockUser(username = "user", roles = "USER")
     public void getCategoryById_WithValidId_ShouldReturnCategoryDto() throws Exception {
-        CategoryDto expected = getCategoryDto();
+        CategoryDto expected = TestUtil.getCategoryDto();
         Long categoryId = 1L;
 
         mockMvc.perform(get("/categories/{id}", categoryId))
@@ -97,10 +102,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Transactional
+    @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify deleteCategory removes category for valid ID")
     @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
     public void deleteCategory_WithValidId_ShouldDeleteCategory() throws Exception {
@@ -111,20 +114,5 @@ class CategoryControllerTest {
 
         mockMvc.perform(get("/categories/{id}", categoryId))
                 .andExpect(status().isNotFound());
-    }
-
-    private CategoryDto getCategoryDto() {
-        CategoryDto dto = new CategoryDto();
-        dto.setId(1L);
-        dto.setName("Horror");
-        dto.setDescription("Horror type");
-        return dto;
-    }
-
-    private CreateCategoryRequestDto getCreateCategoryRequestDto() {
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Horror");
-        requestDto.setDescription("Horror type");
-        return requestDto;
     }
 }

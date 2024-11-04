@@ -14,6 +14,7 @@ import org.example.bookstore.exception.EntityNotFoundException;
 import org.example.bookstore.mapper.CategoryMapper;
 import org.example.bookstore.model.Category;
 import org.example.bookstore.repository.category.CategoryRepository;
+import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +34,9 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Verify the correct saved CategoryDto is returned when requestDto is valid")
     void save_WithValidRequestDto_ShouldValidCategoryDto() {
-        Category category = getCategory();
-        CreateCategoryRequestDto requestDto = getCreateCategoryRequestDto();
-        CategoryDto expected = getCategoryDto();
+        Category category = TestUtil.getCategory();
+        CreateCategoryRequestDto requestDto = TestUtil.getCategoryRequestDto();
+        CategoryDto expected = TestUtil.getCategoryDto();
 
         when(categoryMapper.toEntity(requestDto)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
@@ -50,8 +51,8 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Verify findAll() returns correct list of CategoryDto")
     public void findAll_ShouldReturnListOfCategoryDto() {
-        List<Category> categories = List.of(getCategory());
-        List<CategoryDto> expected = List.of(getCategoryDto());
+        List<Category> categories = List.of(TestUtil.getCategory());
+        List<CategoryDto> expected = List.of(TestUtil.getCategoryDto());
 
         when(categoryRepository.findAll()).thenReturn(categories);
         when(categoryMapper.toDtoList(categories)).thenReturn(expected);
@@ -66,8 +67,8 @@ class CategoryServiceImplTest {
     @DisplayName("Verify the correct CategoryDto is returned when ID is valid")
     public void getById_WithValidId_ShouldReturnCategoryDto() {
         Long id = 1L;
-        Category category = getCategory();
-        CategoryDto expected = getCategoryDto();
+        Category category = TestUtil.getCategory();
+        CategoryDto expected = TestUtil.getCategoryDto();
 
         when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
         when(categoryMapper.toDto(category)).thenReturn(expected);
@@ -87,28 +88,5 @@ class CategoryServiceImplTest {
 
         assertThrows(EntityNotFoundException.class, () -> categoryService.getById(invalidId));
         verify(categoryRepository, times(1)).findById(invalidId);
-    }
-
-    private CategoryDto getCategoryDto() {
-        CategoryDto dto = new CategoryDto();
-        dto.setId(1L);
-        dto.setName("Horror");
-        dto.setDescription("Horror type");
-        return dto;
-    }
-
-    private Category getCategory() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Horror");
-        category.setDescription("Horror type");
-        return category;
-    }
-
-    private CreateCategoryRequestDto getCreateCategoryRequestDto() {
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Horror");
-        requestDto.setDescription("Horror type");
-        return requestDto;
     }
 }
