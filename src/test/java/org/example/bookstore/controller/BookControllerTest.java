@@ -1,5 +1,7 @@
 package org.example.bookstore.controller;
 
+import static org.example.bookstore.util.TestUtil.getBookDto;
+import static org.example.bookstore.util.TestUtil.getBookRequestDto;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,16 +19,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import org.example.bookstore.dto.book.BookDto;
 import org.example.bookstore.exception.EntityNotFoundException;
-import org.example.bookstore.security.JwtUtil;
 import org.example.bookstore.service.BookService;
-import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -44,8 +43,6 @@ class BookControllerTest {
     private ObjectMapper objectMapper;
     @Mock
     private BookService bookService;
-    @MockBean
-    private JwtUtil jwtUtil;
 
     @BeforeAll
     static void beforeAll(@Autowired WebApplicationContext applicationContext) {
@@ -60,8 +57,8 @@ class BookControllerTest {
     @DisplayName("Verify save() method works")
     @WithMockUser(username = "admin", roles = "ADMIN")
     public void saveBook_ValidCreateBookRequestDto_ShouldReturnBookDto() throws Exception {
-        BookDto expected = TestUtil.getBookDto();
-        String jsonRequest = objectMapper.writeValueAsString(TestUtil.getBookRequestDto());
+        BookDto expected = getBookDto();
+        String jsonRequest = objectMapper.writeValueAsString(getBookRequestDto());
 
         mockMvc.perform(post("/books")
                         .content(jsonRequest)
@@ -81,7 +78,7 @@ class BookControllerTest {
     @DisplayName("Verify getAll() method works")
     @WithMockUser(username = "user", roles = "USER")
     public void getAll_ValidData_ShouldReturnBookDtos() throws Exception {
-        when(bookService.findAll(any(Pageable.class))).thenReturn(List.of(TestUtil.getBookDto()));
+        when(bookService.findAll(any(Pageable.class))).thenReturn(List.of(getBookDto()));
         mockMvc.perform(get("/books")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -95,7 +92,7 @@ class BookControllerTest {
     @WithMockUser(username = "user", roles = "USER")
     public void getBookById_ValidId_ShouldReturnBookDto() throws Exception {
         long bookId = 1L;
-        BookDto expected = TestUtil.getBookDto();
+        BookDto expected = getBookDto();
 
         mockMvc.perform(get("/books/" + bookId))
                 .andExpect(status().is(200))

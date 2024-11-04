@@ -1,5 +1,8 @@
 package org.example.bookstore.service.impl;
 
+import static org.example.bookstore.util.TestUtil.getCategory;
+import static org.example.bookstore.util.TestUtil.getCategoryDto;
+import static org.example.bookstore.util.TestUtil.getCategoryRequestDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.times;
@@ -14,7 +17,6 @@ import org.example.bookstore.exception.EntityNotFoundException;
 import org.example.bookstore.mapper.CategoryMapper;
 import org.example.bookstore.model.Category;
 import org.example.bookstore.repository.category.CategoryRepository;
-import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,9 +36,9 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Verify the correct saved CategoryDto is returned when requestDto is valid")
     void save_WithValidRequestDto_ShouldValidCategoryDto() {
-        Category category = TestUtil.getCategory();
-        CreateCategoryRequestDto requestDto = TestUtil.getCategoryRequestDto();
-        CategoryDto expected = TestUtil.getCategoryDto();
+        Category category = getCategory();
+        CreateCategoryRequestDto requestDto = getCategoryRequestDto();
+        CategoryDto expected = getCategoryDto();
 
         when(categoryMapper.toEntity(requestDto)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
@@ -51,8 +53,8 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Verify findAll() returns correct list of CategoryDto")
     public void findAll_ShouldReturnListOfCategoryDto() {
-        List<Category> categories = List.of(TestUtil.getCategory());
-        List<CategoryDto> expected = List.of(TestUtil.getCategoryDto());
+        List<Category> categories = List.of(getCategory());
+        List<CategoryDto> expected = List.of(getCategoryDto());
 
         when(categoryRepository.findAll()).thenReturn(categories);
         when(categoryMapper.toDtoList(categories)).thenReturn(expected);
@@ -67,8 +69,8 @@ class CategoryServiceImplTest {
     @DisplayName("Verify the correct CategoryDto is returned when ID is valid")
     public void getById_WithValidId_ShouldReturnCategoryDto() {
         Long id = 1L;
-        Category category = TestUtil.getCategory();
-        CategoryDto expected = TestUtil.getCategoryDto();
+        Category category = getCategory();
+        CategoryDto expected = getCategoryDto();
 
         when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
         when(categoryMapper.toDto(category)).thenReturn(expected);

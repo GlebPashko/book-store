@@ -1,5 +1,8 @@
 package org.example.bookstore.service.impl;
 
+import static org.example.bookstore.util.TestUtil.getBook;
+import static org.example.bookstore.util.TestUtil.getBookDto;
+import static org.example.bookstore.util.TestUtil.getBookRequestDto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.times;
@@ -14,7 +17,6 @@ import org.example.bookstore.exception.EntityNotFoundException;
 import org.example.bookstore.mapper.BookMapper;
 import org.example.bookstore.model.Book;
 import org.example.bookstore.repository.book.BookRepository;
-import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,9 +39,9 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Verify the correct saved bookDto returned when requestDto correct")
     public void save_WithValidRequestDto_ShouldReturnValidBookDto() {
-        Book book = TestUtil.getBook();
-        CreateBookRequestDto requestDto = TestUtil.getBookRequestDto();
-        BookDto expected = TestUtil.getBookDto();
+        Book book = getBook();
+        CreateBookRequestDto requestDto = getBookRequestDto();
+        BookDto expected = getBookDto();
 
         when(bookMapper.toModel(requestDto)).thenReturn(book);
         when(bookRepository.save(book)).thenReturn(book);
@@ -54,8 +56,8 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Verify the correct find all bookDto returned when we have one book")
     public void findAll_WithValidData_ShouldReturnListOfBookDto() {
-        BookDto bookDto = TestUtil.getBookDto();
-        Book book = TestUtil.getBook();
+        BookDto bookDto = getBookDto();
+        Book book = getBook();
         Pageable pageable = Pageable.ofSize(10);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
@@ -72,8 +74,8 @@ class BookServiceImplTest {
     @DisplayName("Verify the correct book returned when book exists")
     public void getBookById_WithValidId_ShouldReturnValidBookDto() {
         Long bookId = 1L;
-        Book book = TestUtil.getBook();
-        BookDto expected = TestUtil.getBookDto();
+        Book book = getBook();
+        BookDto expected = getBookDto();
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
         when(bookMapper.toDto(book)).thenReturn(expected);

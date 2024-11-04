@@ -1,5 +1,7 @@
 package org.example.bookstore.controller;
 
+import static org.example.bookstore.util.TestUtil.getCategoryDto;
+import static org.example.bookstore.util.TestUtil.getCategoryRequestDto;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -12,14 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.example.bookstore.dto.category.CategoryDto;
 import org.example.bookstore.dto.category.CreateCategoryRequestDto;
-import org.example.bookstore.security.JwtUtil;
-import org.example.bookstore.util.TestUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
@@ -34,8 +33,6 @@ class CategoryControllerTest {
     private static MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @MockBean
-    private JwtUtil jwtUtil;
 
     @BeforeAll
     static void beforeAll(@Autowired WebApplicationContext applicationContext) {
@@ -50,8 +47,8 @@ class CategoryControllerTest {
     @DisplayName("Verify create method return CategoryDto")
     @WithMockUser(username = "admin", roles = "ADMIN")
     public void createCategory_ValidCreateCategoryRequestDto_Success() throws Exception {
-        CreateCategoryRequestDto requestDto = TestUtil.getCategoryRequestDto();
-        CategoryDto expected = TestUtil.getCategoryDto();
+        CreateCategoryRequestDto requestDto = getCategoryRequestDto();
+        CategoryDto expected = getCategoryDto();
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         mockMvc.perform(post("/categories")
@@ -69,7 +66,7 @@ class CategoryControllerTest {
     @DisplayName("Verify getAll returns list of CategoryDto")
     @WithMockUser(username = "user", roles = "USER")
     public void getAll_WithUserRole_ShouldReturnCategoryDtos() throws Exception {
-        CategoryDto expected = TestUtil.getCategoryDto();
+        CategoryDto expected = getCategoryDto();
         mockMvc.perform(get("/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(expected.getId()))
@@ -91,7 +88,7 @@ class CategoryControllerTest {
     @DisplayName("Verify getCategoryById returns CategoryDto for valid ID")
     @WithMockUser(username = "user", roles = "USER")
     public void getCategoryById_WithValidId_ShouldReturnCategoryDto() throws Exception {
-        CategoryDto expected = TestUtil.getCategoryDto();
+        CategoryDto expected = getCategoryDto();
         Long categoryId = 1L;
 
         mockMvc.perform(get("/categories/{id}", categoryId))
