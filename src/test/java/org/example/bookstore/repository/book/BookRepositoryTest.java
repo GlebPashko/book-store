@@ -13,12 +13,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
 
 @Sql(scripts = {
         "classpath:database/remove-all-from-books-categories-table.sql",
         "classpath:database/remove-all-from-categories-table.sql",
         "classpath:database/remove-all-books-from-table.sql"
 }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest {
@@ -26,7 +28,6 @@ class BookRepositoryTest {
     private BookRepository bookRepository;
 
     @Test
-    @Transactional
     @DisplayName("Verify the correct book returned when book exists")
     @Sql(scripts = "classpath:database/add-book-to-books-table.sql")
     void findAll_WithCorrectData_ReturnBooks() {
@@ -37,7 +38,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify the correct book returned when book and category exists")
     @Sql(scripts = {
             "classpath:database/add-book-to-books-table.sql",
@@ -52,7 +52,6 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify the empty list returned when book and category dont exists")
     void findAllByCategoryId_WithoutData_ReturnEmptyList() {
         Pageable pageable = PageRequest.of(0, 10);

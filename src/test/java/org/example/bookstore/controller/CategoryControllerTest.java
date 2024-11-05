@@ -22,12 +22,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @Sql(scripts = "classpath:database/remove-all-from-categories-table.sql",
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
     private static MockMvc mockMvc;
@@ -43,7 +45,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify create method return CategoryDto")
     @WithMockUser(username = "admin", roles = "ADMIN")
     public void createCategory_ValidCreateCategoryRequestDto_Success() throws Exception {
@@ -61,7 +62,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify getAll returns list of CategoryDto")
     @WithMockUser(username = "user", roles = "USER")
@@ -75,7 +75,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify getAll without login, should returns exception")
     public void getAll_WithoutLogin_ShouldReturnException() throws Exception {
         mockMvc.perform(get("/categories"))
@@ -83,7 +82,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify getCategoryById returns CategoryDto for valid ID")
     @WithMockUser(username = "user", roles = "USER")
@@ -99,7 +97,6 @@ class CategoryControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-category-to-categories-table.sql")
     @DisplayName("Verify deleteCategory removes category for valid ID")
     @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})

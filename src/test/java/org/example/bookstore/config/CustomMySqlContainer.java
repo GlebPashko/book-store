@@ -29,4 +29,3 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     public void stop() {
     }
 }
-

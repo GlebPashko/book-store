@@ -30,12 +30,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @Sql(scripts = "classpath:database/remove-all-books-from-table.sql",
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
     private static MockMvc mockMvc;
@@ -53,7 +55,6 @@ class BookControllerTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify save() method works")
     @WithMockUser(username = "admin", roles = "ADMIN")
     public void saveBook_ValidCreateBookRequestDto_ShouldReturnBookDto() throws Exception {
@@ -73,7 +74,6 @@ class BookControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-book-to-books-table.sql")
     @DisplayName("Verify getAll() method works")
     @WithMockUser(username = "user", roles = "USER")
@@ -86,7 +86,6 @@ class BookControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-book-to-books-table.sql")
     @DisplayName("Verify getBookById() method works")
     @WithMockUser(username = "user", roles = "USER")
@@ -105,7 +104,6 @@ class BookControllerTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("Verify getBookById() method works when book by id not exists")
     @WithMockUser(username = "user", roles = "USER")
     public void getBookById_DontValidId_ShouldReturnBookDto() throws Exception {
@@ -118,7 +116,6 @@ class BookControllerTest {
     }
 
     @Test
-    @Transactional
     @Sql(scripts = "classpath:database/add-book-to-books-table.sql")
     @DisplayName("Verify deleteById() method works")
     @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
@@ -132,4 +129,3 @@ class BookControllerTest {
                 .andExpect(status().isNotFound());
     }
 }
-
