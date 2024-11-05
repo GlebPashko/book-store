@@ -31,6 +31,8 @@ import org.springframework.web.context.WebApplicationContext;
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
+    private static final Long CORRECT_ID = 1L;
+
     private static MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
@@ -86,7 +88,7 @@ class CategoryControllerTest {
     @WithMockUser(username = "user", roles = "USER")
     public void getCategoryById_WithValidId_ShouldReturnCategoryDto() throws Exception {
         CategoryDto expected = getCategoryDto();
-        Long categoryId = 1L;
+        Long categoryId = CORRECT_ID;
 
         mockMvc.perform(get("/categories/{id}", categoryId))
                 .andExpect(status().isOk())
@@ -100,7 +102,7 @@ class CategoryControllerTest {
     @DisplayName("Verify deleteCategory removes category for valid ID")
     @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
     public void deleteCategory_WithValidId_ShouldDeleteCategory() throws Exception {
-        Long categoryId = 1L;
+        Long categoryId = CORRECT_ID;
 
         mockMvc.perform(delete("/categories/{id}", categoryId))
                 .andExpect(status().isOk());

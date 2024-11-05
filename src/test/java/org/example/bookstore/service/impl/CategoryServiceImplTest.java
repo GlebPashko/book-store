@@ -26,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
+
     @Mock
     private CategoryRepository categoryRepository;
     @Mock
@@ -85,10 +86,12 @@ class CategoryServiceImplTest {
     @DisplayName("Verify EntityNotFoundException is thrown when ID is invalid")
     public void getById_WithInvalidId_ShouldThrowEntityNotFoundException() {
         Long invalidId = 99L;
-
+        String errorMessage = "Category with id " + invalidId + " not found";
         when(categoryRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> categoryService.getById(invalidId));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> categoryService.getById(invalidId));
+        assertEquals(errorMessage, exception.getMessage());
         verify(categoryRepository, times(1)).findById(invalidId);
     }
 }

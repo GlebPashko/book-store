@@ -29,6 +29,9 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
+    private static final Long CORRECT_ID = 1L;
+    private static final Long INCORRECT_ID = 100L;
+
     @Mock
     private BookRepository bookRepository;
     @Mock
@@ -73,7 +76,7 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Verify the correct book returned when book exists")
     public void getBookById_WithValidId_ShouldReturnValidBookDto() {
-        Long bookId = 1L;
+        Long bookId = CORRECT_ID;
         Book book = getBook();
         BookDto expected = getBookDto();
 
@@ -87,8 +90,8 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Verify the correct exception"
             + " returned when book dont exists")
-    public void getBookById_WithNonExistingId_ShouldThrowException() {
-        Long bookId = 999L;
+    public void getBookById_WithNonExistingId_ShouldThrowEntityNotFoundException() {
+        Long bookId = INCORRECT_ID;
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 

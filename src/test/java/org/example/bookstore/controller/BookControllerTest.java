@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.example.bookstore.dto.book.BookDto;
-import org.example.bookstore.exception.EntityNotFoundException;
 import org.example.bookstore.service.BookService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +38,9 @@ import org.springframework.web.context.WebApplicationContext;
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
+    private static final Long CORRECT_ID = 1L;
+    private static final Long INCORRECT_ID = 100L;
+
     private static MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
@@ -89,7 +91,7 @@ class BookControllerTest {
     @DisplayName("Verify getBookById() method works")
     @WithMockUser(username = "user", roles = "USER")
     public void getBookById_ValidId_ShouldReturnBookDto() throws Exception {
-        long bookId = 1L;
+        long bookId = CORRECT_ID;
         BookDto expected = getBookDto();
 
         mockMvc.perform(get("/books/" + bookId))
@@ -105,13 +107,13 @@ class BookControllerTest {
     @Test
     @DisplayName("Verify getBookById() method works when book by id not exists")
     @WithMockUser(username = "user", roles = "USER")
-    public void getBookById_DontValidId_ShouldReturnBookDto() throws Exception {
-        long bookId = 100L;
-        Exception exp = new EntityNotFoundException("Book with id: " + bookId + " not found");
+    public void getBookById_NotValidId_ShouldThrowEntityNotFoundException() throws Exception {
+        long bookId = INCORRECT_ID;
+        String errorMessage = "Book with id: " + bookId + " not found";
 
         mockMvc.perform(get("/books/" + bookId))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(containsString(exp.getMessage())));
+                .andExpect(content().string(containsString(errorMessage)));
     }
 
     @Test
@@ -119,7 +121,7 @@ class BookControllerTest {
     @DisplayName("Verify deleteById() method works")
     @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
     public void deleteById_ValidId_Success() throws Exception {
-        long bookId = 1L;
+        long bookId = CORRECT_ID;
 
         mockMvc.perform(delete("/books/" + bookId))
                 .andExpect(status().isNoContent());

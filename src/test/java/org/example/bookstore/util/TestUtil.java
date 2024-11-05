@@ -9,8 +9,10 @@ import org.example.bookstore.model.Book;
 import org.example.bookstore.model.Category;
 
 public class TestUtil {
+    private static final Long CORRECT_ID = 1L;
+
     public static Book getBook() {
-        Long bookId = 1L;
+        Long bookId = CORRECT_ID;
         Book book = new Book();
         book.setId(bookId);
         book.setTitle("Title");
@@ -22,7 +24,7 @@ public class TestUtil {
     }
 
     public static BookDto getBookDto() {
-        Long bookId = 1L;
+        Long bookId = CORRECT_ID;
         BookDto bookDto = new BookDto();
         bookDto.setId(bookId);
         bookDto.setTitle("Frankenstein");
@@ -47,7 +49,7 @@ public class TestUtil {
 
     public static Category getCategory() {
         Category category = new Category();
-        category.setId(1L);
+        category.setId(CORRECT_ID);
         category.setName("Horror");
         category.setDescription("Horror type");
         return category;
@@ -55,7 +57,7 @@ public class TestUtil {
 
     public static CategoryDto getCategoryDto() {
         CategoryDto dto = new CategoryDto();
-        dto.setId(1L);
+        dto.setId(CORRECT_ID);
         dto.setName("Horror");
         dto.setDescription("Horror type");
         return dto;
