@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.example.bookstore.dto.category.CategoryDto;
 import org.example.bookstore.dto.category.CreateCategoryRequestDto;
 import org.junit.jupiter.api.BeforeAll;

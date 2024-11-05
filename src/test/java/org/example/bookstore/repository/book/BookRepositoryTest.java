@@ -2,7 +2,6 @@ package org.example.bookstore.repository.book;
 
 import static org.junit.Assert.assertEquals;
 
-import jakarta.transaction.Transactional;
 import org.example.bookstore.model.Book;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
