@@ -207,13 +207,13 @@ The online-book-store is a web application developed in Java using the Spring Bo
 
 ## How To Build
 For build and start project on your PC you need to do this steps:
-- Copy the project to your IDEA
-- Start a docker program
-- Type this command to IDEA console to compile program
+- Copy the project into your IDEA.
+- Start Docker.
+- Type this command into the IDEA console to compile the program:
  ```
 mvn package
  ```
-- Type this command to IDEA console to start image in docker
+- Type this command into the IDEA console to start the image in Docker: 
  ```
 docker-compose up
  ```
