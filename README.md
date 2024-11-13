@@ -239,6 +239,7 @@ Now you can use the program.
 
 ## Quick Demo Video
 
-[![Переглянути відео на Loom](https://www.loom.com/embed/your-video-link-thumbnail)](https://www.loom.com/share/your-video-link)
+[Дивитись відео на Loom][(https://www.loom.com/share/your-video-link](https://www.loom.com/share/f18d781ae99e4bbb89c954f882ecfcb8?sid=6b8958f9-6310-41ab-aed4-2497452df7a5))
+
 
 
