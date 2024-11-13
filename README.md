@@ -13,7 +13,7 @@
 - [About](#about)
 - [Technologies Used](#technologies-used)
 - [Functionalities](#functionalities)
-- [How To Build](#how-to-build)
+- [Project Setup and Launch](#project-setup-and-launch)
 - [Challenges and Solutions](#challenges-and-solutions)
 - [Quick Demo Video](#quick-demo-video)
 
@@ -206,20 +206,37 @@ The online-book-store is a web application developed in Java using the Spring Bo
   }
   ```
 
-## How To Build
-For build and start project on your PC you need to do this steps:
-- Copy the project into your IDEA.
-- Start Docker.
-- Type this command into the IDEA console to compile the program:
- ```
-mvn package
- ```
-- Type this command into the IDEA console to start the image in Docker: 
- ```
-docker-compose up
- ```
-Now you can use the program.
+## Project Setup and Launch
 
+To build and start the project on your PC, follow these steps:
+### 1. Clone the Project
+- Go to the project repository and press the *Code* button to copy the HTTPS link.
+- In your IDE (e.g., IntelliJ IDEA), select *Get from VCS*, paste the link, and click *Clone*.
+### 2. Set Up Environment Variables
+- Create a .env file in the project root, and populate it with the necessary variables from file env.sample.
+- You can change the port settings. By default, requests from the .env.sample file are sent to port 8088.
+### 3. Start Docker
+- Make sure Docker is running on your machine. You can verify Docker's status with the command:
+```
+docker --version
+```
+### 4. Compile the Project
+- In the IDE terminal, run:
+```
+mvn package
+```
+### 5. Run the Application in Docker
+- To start the application in Docker, run:
+```
+docker-compose up
+```
+### 6. Import the Postman Collection (Optional)
+Ensure that the following technologies are installed:
+- Java: Version 17.0 (for compiling)
+- Maven: Version 3.9 (for dependency management)
+- Docker: Version 27.1.1 (for containerization)
+
+### Prerequisites
 ## Challenges and Solutions
 
 - **N + 1 problem**  
