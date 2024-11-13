@@ -230,13 +230,15 @@ mvn package
 ```
 docker-compose up
 ```
-### 6. Import the Postman Collection (Optional)
+### 6. Import the API Collection (Optional)
+-If an Apidog collection is available, you can import it into Apidog to simplify API endpoint testing. Look for the collection file in the project repository (e.g., book.apidog).
+-Alternatively, you can use the OpenAPI specification (book.openapi) to import the API into other API tools that support OpenAPI, such as Postman or Swagger.
+
+### Prerequisites
 Ensure that the following technologies are installed:
 - Java: Version 17.0 (for compiling)
 - Maven: Version 3.9 (for dependency management)
 - Docker: Version 27.1.1 (for containerization)
-
-### Prerequisites
 ## Challenges and Solutions
 
 - **N + 1 problem**  
