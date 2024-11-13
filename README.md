@@ -15,6 +15,7 @@
 - [Functionalities](#functionalities)
 - [How To Build](#how-to-build)
 - [Challenges and Solutions](#challenges-and-solutions)
+- [Quick Demo Video](#quick-demo-video)
 
 ## About
 The online-book-store is a web application developed in Java using the Spring Boot framework. It provides a complete platform for handling books, categories, user registrations, shopping carts, and orders in a bookstore. The project was created to offer an efficient and scalable solution for simplifying bookstore management.
@@ -235,3 +236,9 @@ Now you can use the program.
 
 - **Mapping Issues with MapStruct**  
   When using **MapStruct** to map between DTOs and entity models, I faced issues with nested objects not being mapped correctly. I resolved this by adding custom mapping methods for complex objects and ensuring correct configuration of mappers.
+
+## Quick Demo Video
+
+[![Переглянути відео на Loom](https://www.loom.com/embed/your-video-link-thumbnail)](https://www.loom.com/share/your-video-link)
+
+
